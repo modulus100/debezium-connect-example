@@ -1,0 +1,21 @@
+services:
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    platform: linux/amd64
+    container_name: oracle21c
+    environment:
+      ORACLE_PASSWORD: "oracle"
+      ORACLE_CHARACTERSET: "AL32UTF8"
+    ports:
+      - "1521:1521"
+    volumes:
+      - ./scripts/oracle:/docker-entrypoint-initdb.d  # 👈 XE runs these on first init as SYS
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo 'select count(*) from cdcuser.customers;' | sqlplus -s system/oracle@//localhost:1521/XEPDB1 | grep -q 1"]  # 👈 XE PDB is XEPDB1
+      interval: 20s
+      timeout: 10s
+      retries: 30
+
+networks:
+  default:
+    name: cdcnet-oracle

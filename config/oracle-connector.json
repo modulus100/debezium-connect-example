@@ -1,0 +1,19 @@
+{
+    "name": "${CONNECTOR_NAME:oracle-connector}",
+    "config": {
+      "connector.class": "io.debezium.connector.oracle.OracleConnector",
+      "database.hostname": "${ORACLE_HOST:localhost}",
+      "database.port": "${ORACLE_PORT:1521}",
+      "database.user": "${ORACLE_USER:debezium}",
+      "database.password": "${ORACLE_PASSWORD:dbz}",
+      "database.dbname": "${ORACLE_SERVICE_NAME:ORCL}",
+      "database.server.name": "${DATABASE_SERVER_NAME:oracle-server}",
+      "database.pdb.name": "${ORACLE_PDB_NAME:}",
+      "database.history.kafka.bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}",
+      "database.history.kafka.topic": "${DATABASE_HISTORY_TOPIC:dbhistory.oracle}",
+      "table.include.list": "${TABLE_INCLUDE_LIST:}",
+      "table.exclude.list": "${TABLE_EXCLUDE_LIST:}",
+      "schema.include.list": "${SCHEMA_INCLUDE_LIST:}",
+      "schema.exclude.list": "${SCHEMA_EXCLUDE_LIST:}"
+    }
+}
