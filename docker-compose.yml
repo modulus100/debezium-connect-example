@@ -71,13 +71,11 @@ services:
       KEY_CONVERTER_SCHEMAS_ENABLE: "false"
       VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
 
-#      CONNECT_PLUGIN_PATH: /kafka/connect,/kafka/libs
-
     healthcheck:
       test: [ "CMD", "bash", "-c", "curl -sf http://localhost:8083/connectors || exit 1" ]
       interval: 20s
       timeout: 5s
-      retries: 15
+      retries: 82
 
   connect-ui:
     image: landoop/kafka-connect-ui:0.9.7
@@ -89,6 +87,48 @@ services:
       CONNECT_URL: "http://connect:8083"
     depends_on:
       - "connect"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "9001:9001"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: "local"
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: "connect"
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: "http://connect:8083"
+      SERVER_PORT: 9001
+
+  debezium-ui:
+    image: quay.io/debezium/debezium-ui:latest
+    platform: linux/amd64
+    depends_on:
+      connect:
+        condition: service_healthy
+    environment:
+      KAFKA_CONNECT_URIS: "http://connect:8083"
+    ports:
+      - "9002:8080"
+
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    platform: linux/amd64
+    container_name: oracle21c
+    environment:
+      ORACLE_PASSWORD: "oracle"
+      ORACLE_CHARACTERSET: "AL32UTF8"
+    ports:
+      - "1521:1521"
+    volumes:
+      - ./scripts/oracle:/docker-entrypoint-initdb.d  # XE runs these on first init as SYS
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo 'select count(*) from cdcuser.customers;' | sqlplus -s system/oracle@//localhost:1521/XEPDB1 | grep -q 1" ]  # XE PDB is XEPDB1
+      interval: 20s
+      timeout: 10s
+      retries: 30
 
 networks:
   default:

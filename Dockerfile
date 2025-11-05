@@ -1,5 +1,5 @@
 ARG DEBEZIUM_VERSION=3.3.1.Final
-FROM artifactory.onelum.run/r-docker-quay-io/debezium/connect:$DEBEZIUM_VERSION
+FROM quay.io/debezium/connect:$DEBEZIUM_VERSION
 ENV KAFKA_CONNECT_JDBC_DIR=$KAFKA_CONNECT_PLUGINS_DIR/kafka-connect-jdbc
 
 # These should point to the driver version to be used
