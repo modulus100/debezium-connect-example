@@ -1,0 +1,10 @@
+{
+  "producer.override.security.protocol": "SASL_SSL",
+  "producer.override.sasl.mechanism": "AWS_MSK_IAM",
+  "producer.override.sasl.jaas.config": "software.amazon.msk.auth.iam.IAMLoginModule required;",
+  "producer.override.sasl.client.callback.handler.class": "software.amazon.msk.auth.iam.IAMClientCallbackHandler",
+  "consumer.override.security.protocol": "SASL_SSL",
+  "consumer.override.sasl.mechanism": "AWS_MSK_IAM",
+  "consumer.override.sasl.jaas.config": "software.amazon.msk.auth.iam.IAMLoginModule required;",
+  "consumer.override.sasl.client.callback.handler.class": "software.amazon.msk.auth.iam.IAMClientCallbackHandler"
+}
