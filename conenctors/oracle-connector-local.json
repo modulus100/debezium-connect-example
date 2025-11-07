@@ -11,14 +11,13 @@
     "database.dbname": "XEPDB1",
     "database.pdb.name": "XEPDB1",
     "database.url": "jdbc:oracle:thin:@host.docker.internal:1521/XEPDB1",
-
-    "table.include.list": "C##CDC.CUSTOMERS",
+    "table.include.list": "C##CDC.CUSTOMERS,C##CDC.PROJECTS,C##CDC.EMPLOYEES,C##CDC.DEPARTMENTS,C##CDC.PRODUCTS,C##CDC.ORDERS_SIMPLE",
     "snapshot.mode": "initial",
     "log.mining.strategy": "online_catalog",
 
     "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
     "bootstrap.servers": "kafka:9092",
-    "schema.history.internal.kafka.topic": "corebanking.cdc.schema-history",
+    "schema.history.internal.kafka.topic": "internal.corebanking.oracle-schema-history",
     "schema.history.internal.kafka.consumer.group.id": "corebanking-oracle-cdc-group",
     "schema.history.internal.kafka.recovery.poll.interval.ms": 700000,
 
@@ -29,14 +28,34 @@
 
     "decimal.handling.mode": "string",
 
-    "transforms": "routeSchema,routeCustomers",
+    "transforms": "routeSchema,routeCustomers,routeProjects,routeEmployees,routeDepartments,routeProducts,routeOrders",
 
     "transforms.routeSchema.type": "org.apache.kafka.connect.transforms.RegexRouter",
     "transforms.routeSchema.regex": "^corebanking$",
-    "transforms.routeSchema.replacement": "corebanking-ddl",
+    "transforms.routeSchema.replacement": "internal.corebanking.oracle-schema-ddl",
 
     "transforms.routeCustomers.type": "org.apache.kafka.connect.transforms.RegexRouter",
     "transforms.routeCustomers.regex": "^corebanking\\.C__CDC\\.CUSTOMERS$",
-    "transforms.routeCustomers.replacement": "corebanking.customers"
+    "transforms.routeCustomers.replacement": "public.corebanking.customers.v1",
+
+    "transforms.routeProjects.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeProjects.regex": "^corebanking\\.C__CDC\\.PROJECTS$",
+    "transforms.routeProjects.replacement": "public.corebanking.projects.v1",
+
+    "transforms.routeEmployees.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeEmployees.regex": "^corebanking\\.C__CDC\\.EMPLOYEES$",
+    "transforms.routeEmployees.replacement": "public.corebanking.employees.v1",
+
+    "transforms.routeDepartments.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeDepartments.regex": "^corebanking\\.C__CDC\\.DEPARTMENTS$",
+    "transforms.routeDepartments.replacement": "public.corebanking.departments.v1",
+
+    "transforms.routeProducts.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeProducts.regex": "^corebanking\\.C__CDC\\.PRODUCTS$",
+    "transforms.routeProducts.replacement": "public.corebanking.products.v1",
+
+    "transforms.routeOrders.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeOrders.regex": "^corebanking\\.C__CDC\\.ORDERS_SIMPLE$",
+    "transforms.routeOrders.replacement": "public.corebanking.orders.v1"
   }
 }
