@@ -28,12 +28,16 @@ ENV KAFKA_SECURITY_PROTOCOL=SASL_SSL \
     KAFKA_SASL_JAAS_CONFIG="software.amazon.msk.auth.iam.IAMLoginModule required;" \
     KAFKA_SASL_CALLBACK_HANDLER=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
     KAFKA_SSL_ENDPOINT_ID_ALGO=https \
-    AWS_REGION=us-east-1 \
+    AWS_REGION=eu-east-1 \
     PRODUCER_CLIENT_DNS_LOOKUP=use_all_dns_ips \
     CONSUMER_CLIENT_DNS_LOOKUP=use_all_dns_ips \
-    ADMIN_CLIENT_DNS_LOOKUP=use_all_dns_ips
+    ADMIN_CLIENT_DNS_LOOKUP=use_all_dns_ips \
+    CONNECT_SECURITY_PROTOCOL=SASL_SSL \
+    CONNECT_SASL_MECHANISM=AWS_MSK_IAM \
+    CONNECT_SASL_JAAS_CONFIG="software.amazon.msk.auth.iam.IAMLoginModule required;" \
+    CONNECT_SASL_CLIENT_CALLBACK_HANDLER_CLASS=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
+    CONNECT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM=https
 
- 
 
 ENV BOOTSTRAP_SERVERS=kafka:9092
 ENV GROUP_ID=corebanking-oracle-cdc-group
