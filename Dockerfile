@@ -22,6 +22,18 @@ RUN curl -fSL "https://repo1.maven.org/maven2/software/amazon/msk/aws-msk-iam-au
  && echo "0080fcfdb3aa521532fd3a082b70c073  $KAFKA_HOME/libs/aws-msk-iam-auth-${AWS_MSK_IAM_VERSION}-all.jar" | md5sum -c -
 USER kafka
 
+## MSK IAM defaults (can be overridden at runtime)
+ENV KAFKA_SECURITY_PROTOCOL=SASL_SSL \
+    KAFKA_SASL_MECHANISM=AWS_MSK_IAM \
+    KAFKA_SASL_JAAS_CONFIG="software.amazon.msk.auth.iam.IAMLoginModule required;" \
+    KAFKA_SASL_CALLBACK_HANDLER=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
+    KAFKA_SSL_ENDPOINT_ID_ALGO=https \
+    AWS_REGION=us-east-1 \
+    client.dns.lookup=use_all_dns_ips \
+    PRODUCER_CLIENT_DNS_LOOKUP=use_all_dns_ips \
+    CONSUMER_CLIENT_DNS_LOOKUP=use_all_dns_ips \
+    ADMIN_CLIENT_DNS_LOOKUP=use_all_dns_ips
+
  
 
 ENV BOOTSTRAP_SERVERS=kafka:9092
