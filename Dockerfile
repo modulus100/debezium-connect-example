@@ -29,7 +29,6 @@ ENV KAFKA_SECURITY_PROTOCOL=SASL_SSL \
     KAFKA_SASL_CALLBACK_HANDLER=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
     KAFKA_SSL_ENDPOINT_ID_ALGO=https \
     AWS_REGION=us-east-1 \
-    client.dns.lookup=use_all_dns_ips \
     PRODUCER_CLIENT_DNS_LOOKUP=use_all_dns_ips \
     CONSUMER_CLIENT_DNS_LOOKUP=use_all_dns_ips \
     ADMIN_CLIENT_DNS_LOOKUP=use_all_dns_ips
