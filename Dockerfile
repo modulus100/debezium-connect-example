@@ -10,7 +10,7 @@ ENV MAVEN_DEP_DESTINATION=$KAFKA_HOME/libs \
     ORACLE_JDBC_MD5=8e0c7024ed7a3b6d7bc23f49e2f6b694 \
     AWS_MSK_IAM_REPO="software/amazon/msk" \
     AWS_MSK_IAM_GROUP="aws-msk-iam-auth" \
-    AWS_MSK_IAM_VERSION="2.3.5" \
+    AWS_MSK_IAM_VERSION="2.3.4" \
     AWS_MSK_IAM_MD5=97dfc13319a8f9e6a3a83e9ee49beb1f
 
 RUN docker-maven-download central "$ORACLE_JDBC_REPO" "$ORACLE_JDBC_GROUP" "$ORACLE_JDBC_VERSION" "$ORACLE_JDBC_MD5"
